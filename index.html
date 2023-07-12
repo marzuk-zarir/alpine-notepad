@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Marzuk's Notepad</title>
+    </head>
+    <body class="min-h-screen grid text-neutral-900" style="grid-template-rows: auto 1fr auto">
+        <!-- header -->
+        <header class="flex justify-between items-center p-6">
+            <h1 class="font-semibold text-2xl">Notepad</h1>
+            <button
+                type="button"
+                class="p-1 rounded-full transition focus:ring-2 focus:ring-blue-400"
+            >
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="icon icon-tabler icon-tabler-sun"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    stroke-width="2"
+                    stroke="currentColor"
+                    fill="none"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                >
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0"></path>
+                    <path
+                        d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7"
+                    ></path>
+                </svg>
+            </button>
+        </header>
+
+        <!-- main -->
+        <main
+            x-data="notepad"
+            class="grid grid-cols-12 gap-5 container 2xl:max-w-[1600px] mx-auto px-6 pt-3 pb-10"
+        >
+            <aside class="col-span-3 flex flex-col gap-3">
+                <template x-for="n in notes">
+                    <div
+                        @click="handleSelectNote(`${n.id}`)"
+                        class="border border-neutral-200 rounded-md px-4 py-3 select-none cursor-pointer transition hover:bg-neutral-50"
+                    >
+                        <p x-text="n.content" class="truncate"></p>
+                    </div>
+                </template>
+
+                <template x-if="notes.length === 0">
+                    <p class="text-center text-sm text-neutral-500">No notes found</p>
+                </template>
+
+                <template x-if="notes.length !== 0">
+                    <button
+                        type="button"
+                        @click="handleCreateNote()"
+                        class="text-sm text-neutral-600 font-semibold bg-emerald-50 hover:bg-emerald-100 border border-emerald-400 rounded-md py-2 cursor-pointer transition"
+                    >
+                        Create New Note
+                    </button>
+                </template>
+            </aside>
+
+            <section class="col-span-9">
+                <textarea
+                    x-model="note.content"
+                    class="w-full min-h-full border border-neutral-300 rounded-md mb-1 p-5"
+                ></textarea>
+                <div class="flex items-center justify-end gap-3 text-sm text-neutral-500">
+                    <p>
+                        Words: <span x-text="wordsCount">0</span> | Chars:
+                        <span x-text="charsCount">0</span>
+                    </p>
+                    <button
+                        type="button"
+                        @click="handleCopyNote()"
+                        x-text="isCopied ? 'Copied' : 'Copy'"
+                        class="bg-neutral-200 px-2 py-0.5 rounded"
+                    >
+                        Copy
+                    </button>
+                </div>
+            </section>
+        </main>
+
+        <!-- footer -->
+        <footer class="text-neutral-400 text-sm text-center py-6">
+            <p>
+                Made with ❤️ by
+                <a
+                    href="https://github.com/marzuk-zarir"
+                    target="_blank"
+                    class="transition text-blue-400 hover:text-blue-500 hover:underline"
+                    >Marzuk Zarir</a
+                >
+            </p>
+        </footer>
+
+        <script type="module" src="/src/index.ts"></script>
+    </body>
+</html>
